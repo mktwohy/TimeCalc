@@ -1,11 +1,4 @@
-fun main(args: Array<String>) {
-    when {
-        args.isEmpty() -> run()
-        else -> "$args is not a legal argument"
-    }
-}
-
-fun run() {
+fun main() {
     println("type 'q' or 'quit' to quit.\n")
 
     fun String.parseVariable(): Pair<String?, String> {
@@ -17,6 +10,7 @@ fun run() {
         }
         return null to this
     }
+
     fun String.insertVariables(variables: Map<String, String>): String {
         var res = this
         for ((name, value) in variables) {
@@ -33,6 +27,7 @@ fun run() {
 
         val result = expression
             .insertVariables(variables)
+            .replace("now", Time.now.toString(), ignoreCase = true)
             .toTokens()
             .toPostFix()
             .let(::calcTime)

@@ -27,7 +27,11 @@ kotlin {
         }
     }
     sourceSets {
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.0")
+            }
+        }
         val nativeTest by getting {
             dependencies {
                 implementation(kotlin("test"))

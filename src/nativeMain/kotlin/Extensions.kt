@@ -6,3 +6,11 @@ fun String.splitWithDelimiter(vararg delimiters: Char): List<String> {
     val reg = Regex("(?<=[$delimiterStr])|(?=[$delimiterStr])")
     return this.split(reg)
 }
+
+fun <T> Array<T>.elementAfterOrNull(element: T): T? =
+    this.toList().elementAfterOrNull(element)
+
+fun <T> List<T>.elementAfterOrNull(element: T): T? =
+    this.indexOfOrNull(element)?.let { index ->
+        this.elementAtOrNull(index + 1)
+    }

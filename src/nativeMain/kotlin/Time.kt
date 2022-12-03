@@ -1,3 +1,16 @@
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
+fun getCurrentTimeOfDay(): Time =
+    Clock.System.now()
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .run {
+            val amPm = if (hour < 12) "am" else "pm"
+            "${hour % 12}:$minute$amPm"
+        }
+        .toTime()
+
 fun String.toTime(): Time {
     val pm = this.trim().endsWith("pm", ignoreCase = true)
 
@@ -28,6 +41,8 @@ fun Int.to12Hour(pm: Boolean): Int =
 
 class Time(val hour: Int, val minute: Int = 0) {
     companion object {
+        val now get() = getCurrentTimeOfDay()
+
         fun fromMinutes(minutes: Int): Time =
             Time(minutes / 60, minutes % 60)
     }
