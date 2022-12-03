@@ -12,7 +12,7 @@ fun run() {
         val input = readLine() ?: ""
         if (input == "quit" || input == "q") break
 
-        val expression = input.splitInput().toPostFix()
+        val expression = input.toTokens().toPostFix()
         val result = calcTime(expression)
         println("  = $result\n")
     }
@@ -40,23 +40,25 @@ fun calcTime(postFixExpression: List<String>): String {
     return stack.pop()!!
 }
 
-fun String.splitInput(): List<String> =
+fun String.toTokens(): List<String> =
     this.splitWithDelimiter('(', ')', '+', '-')
         .map { it.trim() }
         .filter { it.isNotBlank() }
 
 /** An implementation of the [Shunting Yard Algorithm](https://en.wikipedia.org/wiki/Shunting_yard_algorithm) */
 fun List<String>.toPostFix(operators: List<String> = listOf("+", "-")): List<String> {
+    val operatorStack = Stack<String>()
+    val outputQueue = Queue<String>()
+
     infix fun String?.hasGreaterPrecedenceThan(other: String?): Boolean {
         val thisIndex = operators.indexOfOrNull(this) ?: return false
         val otherIndex = operators.indexOfOrNull(other) ?: return true
         return thisIndex < otherIndex
     }
 
-    val operatorStack = Stack<String>()
-    val outputQueue = Queue<String>()
-
-    fun popOperatorToOutput() = operatorStack.pop()?.let { outputQueue.enqueue(it) }
+    fun popOperatorToOutput() {
+        operatorStack.pop()?.let { outputQueue.enqueue(it) }
+    }
 
     for (token in this) {
         when(token) {

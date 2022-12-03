@@ -6,7 +6,7 @@ class PostFixTest {
     fun test1() {
         val input = "1 + 2"
         val expected = listOf("1", "2", "+")
-        val actual = input.splitInput().toPostFix()
+        val actual = input.toTokens().toPostFix()
         assertEquals(expected, actual)
     }
 
@@ -14,7 +14,7 @@ class PostFixTest {
     fun test2() {
         val input = "1 + 2 - 3"
         val expected = listOf("1", "2", "+", "3", "-")
-        val actual = input.splitInput().toPostFix()
+        val actual = input.toTokens().toPostFix()
         assertEquals(expected, actual)
     }
 
@@ -22,7 +22,7 @@ class PostFixTest {
     fun test3() {
         val input = "1 + (2 - 3)"
         val expected = listOf("1", "2", "3", "-", "+")
-        val actual = input.splitInput().toPostFix()
+        val actual = input.toTokens().toPostFix()
         assertEquals(expected, actual)
     }
 
@@ -30,7 +30,7 @@ class PostFixTest {
     fun test4() {
         val input = "1:00 + (2 - 3)"
         val expected = listOf("1:00", "2", "3", "-", "+")
-        val actual = input.splitInput().toPostFix()
+        val actual = input.toTokens().toPostFix()
         assertEquals(expected, actual)
     }
 }
